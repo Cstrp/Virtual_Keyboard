@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 let mode = 'development';
 let target = 'web';
@@ -8,6 +9,9 @@ if (process.env.NODE_ENV === 'production') {
   mode = 'production';
   target = 'browserslist';
 }
+
+const DevelopmentMode = process.env.NOVE_ENV === 'development';
+const ProductionMode = !DevelopmentMode;
 
 const plugins = [
   new HtmlWebpackPlugin({
@@ -17,6 +21,12 @@ const plugins = [
     filename: './style/[name].[contenthash].css',
   }),
 ];
+if (process.env.NODE_ENV === DevelopmentMode) {
+  plugins.push('react-refresh/babel');
+}
+if (process.env.SERVE) {
+  plugins.push(new ReactRefreshWebpackPlugin());
+}
 
 // const productionConfig = merge([
 //   {
@@ -34,8 +44,8 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: 'source-map',
   entry: {
-    main: './js/index.js',
-    support: './js/index.ts'
+    main: ['@babel/polyfill', './js/index.js'],
+    support: './js/index.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -46,22 +56,17 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'public'),
     },
-    hot: false,
+    hot: DevelopmentMode,
     compress: true,
     open: true,
-    port: 1337,
+    port: 3001,
   },
   module: {
     rules: [
       { test: /\.(html)$/, use: ['html-loader'] },
       {
         test: /\.(s[ac]|c)ss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
@@ -87,14 +92,21 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
+            presets: ['@babel/preset-env'],
             cacheDirectory: true,
           },
         },
       },
       {
         test: /\.(ts|tsx)?$/,
-        use: 'babel-loader',
         exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-typescript'],
+            cacheDirectory: true,
+          },
+        },
       },
       {
         test: /\.jsx?$/,
@@ -102,6 +114,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
+            presets: ['@babel/preset-react'],
             cacheDirectory: true,
           },
         },
