@@ -1,0 +1,78 @@
+$color: rgba(0, 162, 255, 0.3);
+$arrowColor: rgb(108, 0, 248, 0.3);
+
+.backspace {
+    width: 150px;
+    background-color: $color;
+}
+
+.space {
+    width: 500px;
+    background-color: $color;
+}
+
+.tab {
+    width: 50px;
+    background-color: $color;
+}
+
+.enter {
+    width: 150px;
+    background-color: $color;
+}
+
+.capslock {
+    width: 150px;
+    background-color: $color;
+}
+
+.shiftLeft {
+    width: 200px;
+    background-color: $color;
+}
+
+.shiftRight {
+    width: 200px;
+    background-color: $color;
+}
+
+
+.altLeft {
+    width: 40px;
+    background-color: $color;
+}
+
+.altRight {
+    width: 40px;
+    background-color: $color;
+}
+
+.ctrlLeft {
+    width: 50px;
+    background-color: $color;
+}
+
+.ctrlRight {
+    width: 50px;
+    background-color: $color;
+}
+
+.left {
+    width: 30px;
+    background-color: $arrowColor;
+}
+
+.right {
+    width: 30px;
+    background-color: $arrowColor;
+}
+
+.up {
+    width: 30px;
+    background-color: $arrowColor;
+}
+
+.down {
+    width: 30px;
+    background-color: $arrowColor;
+}

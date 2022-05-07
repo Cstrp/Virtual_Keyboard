@@ -1,0 +1,46 @@
+.keyboard {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 450px;
+    gap: 1rem;
+    width: 60%;
+    height: 350px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgb(0, 0, 0, 0.4);
+    color: #fff;
+
+    .keyboard-row {
+        display: flex;
+        gap: 1rem;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        clear: both;
+
+        .keyboard-key {
+            display: flex;
+            flex-wrap: nowrap;
+            height: 35px;
+            font-size: 15px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            clear: both;
+            transition: 0.5s all ease;
+
+        &:hover{
+            background-color: rgba(255, 255, 255, 0.575);
+        }}
+    }
+}
