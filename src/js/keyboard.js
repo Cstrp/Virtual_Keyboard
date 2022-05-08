@@ -93,13 +93,14 @@ export default class Keyboard extends Wrapper {
 
   engKeyboardLayout() {
     const { eng } = language;
-    const keys = Object.entries(eng.filter((key) => key.small));
+    const keys = Object.entries(eng);
     const keysOrder = rowsOrder.map((row) =>
       row.map((key) => keys.find((keyItem) => keyItem[1].code === key))
     );
 
     // console.log(keys);
-    console.log(keysOrder);
+    // console.log(keysOrder);
+
     keysOrder.forEach((row) => {
       const keyboardRow = new Create(
         this.keyboard.element,
@@ -113,24 +114,47 @@ export default class Keyboard extends Wrapper {
           keyboardRow.element,
           'div',
           'keyboard-key',
-          '',
+          key[1].small,
           {
             'data-key': key[1].code,
           }
         );
-        keyboardKey.element.innerHTML = key[1].small;
         if (key[1].code === 'Space') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('space');
+          keyboardKey.element.innerHTML = '&nbsp;';
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += ' ';
+            this.output.element.focus();
+          });
         } else if (key[1].code === 'Enter') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('enter');
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += '\n';
+            this.output.element.focus();
+          });
         } else if (key[1].code === 'Backspace') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('backspace');
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value = this.output.element.value.slice(
+              0,
+              this.output.element.value.length - 1
+            );
+            this.output.element.focus();
+          });
         } else if (key[1].code === 'CapsLock') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('capslock');
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value = this.output.element.value.toUpperCase();
+            this.output.element.focus();
+          });
         } else if (key[1].code === 'ShiftLeft') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('shiftLeft');
@@ -164,14 +188,17 @@ export default class Keyboard extends Wrapper {
         } else if (key[1].code === 'Tab') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('tab');
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += '\t';
+            this.output.element.focus();
+          });
         }
-
-        keyboardKey.element.addEventListener('click', (e) => {
-          this.output.element.value += e.target.dataset.key;
-        });
       });
     });
   }
+
+  evtHandler() {}
   // keys.forEach(([key, value]) => {
   //   if (value.length > 1) {
   //     value.forEach((item) => {
@@ -243,5 +270,6 @@ export default class Keyboard extends Wrapper {
   render() {
     this.keyboardLayout();
     this.engKeyboardLayout();
+    this.evtHandler();
   }
 }

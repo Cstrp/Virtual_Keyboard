@@ -10,6 +10,12 @@ if (process.env.NODE_ENV === 'production') {
   target = 'browserslist';
 }
 
+let optimization = {
+  splitChunks: {
+    chunks: 'all',
+  },
+};
+
 const DevelopmentMode = process.env.NOVE_ENV === 'development';
 const ProductionMode = !DevelopmentMode;
 
@@ -28,19 +34,20 @@ if (process.env.SERVE) {
   plugins.push(new ReactRefreshWebpackPlugin());
 }
 
-// const productionConfig = merge([
-//   {
-//     output: {
-//       publicPath: '/Virtual_Keyboard/',
-//     },
-//   },
-// ]);
+const productionConfig = merge([
+  {
+    output: {
+      publicPath: '/Virtual_Keyboard/',
+    },
+  },
+]);
 
 module.exports = {
   mode,
   plugins,
   target,
-  // productionConfig,
+  optimization,
+  productionConfig,
   context: path.resolve(__dirname, 'src'),
   devtool: 'eval-source-map',
   entry: {
