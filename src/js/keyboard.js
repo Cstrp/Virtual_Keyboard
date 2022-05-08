@@ -81,6 +81,7 @@ export default class Keyboard extends Wrapper {
   constructor() {
     super();
   }
+
   keyboardLayout() {
     this.keyboard = new Create(
       this.container.element,
@@ -198,7 +199,21 @@ export default class Keyboard extends Wrapper {
     });
   }
 
-  evtHandler() {}
+  evtHandlerOnKey() {
+    const keys = this.keyboard.element.querySelectorAll('.keyboard-key');
+    keys.forEach((key) => {
+      key.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.output.element.value += key.innerHTML;
+        this.output.element.focus();
+      });
+    });
+  }
+
+  keyPressedHandler() {
+    
+  }
+
   // keys.forEach(([key, value]) => {
   //   if (value.length > 1) {
   //     value.forEach((item) => {
@@ -270,6 +285,7 @@ export default class Keyboard extends Wrapper {
   render() {
     this.keyboardLayout();
     this.engKeyboardLayout();
-    this.evtHandler();
+    this.evtHandlerOnKey();
+    this.keyPressedHandler();
   }
 }

@@ -5,7 +5,7 @@ class Create {
     this.element.innerHTML = value;
     parent.appendChild(this.element);
     if (attributes) {
-      for (let key in attributes) {
+      for (const key in attributes) {
         this.element.setAttribute(key, attributes[key]);
       }
     }
