@@ -88,16 +88,14 @@ export default class Keyboard extends Wrapper {
       'div',
       'keyboard',
       '',
-      ''
+      '',
     );
   }
 
   engKeyboardLayout() {
     const { eng } = language;
     const keys = Object.entries(eng);
-    const keysOrder = rowsOrder.map((row) =>
-      row.map((key) => keys.find((keyItem) => keyItem[1].code === key))
-    );
+    const keysOrder = rowsOrder.map((row) => row.map((key) => keys.find((keyItem) => keyItem[1].code === key)));
 
     // console.log(keys);
     // console.log(keysOrder);
@@ -108,7 +106,7 @@ export default class Keyboard extends Wrapper {
         'div',
         'keyboard-row',
         '',
-        ''
+        '',
       );
       row.forEach((key) => {
         const keyboardKey = new Create(
@@ -118,7 +116,7 @@ export default class Keyboard extends Wrapper {
           key[1].small,
           {
             'data-key': key[1].code,
-          }
+          },
         );
         if (key[1].code === 'Space') {
           keyboardKey.element.classList.remove('keyboard-key');
@@ -144,7 +142,7 @@ export default class Keyboard extends Wrapper {
             e.preventDefault();
             this.output.element.value = this.output.element.value.slice(
               0,
-              this.output.element.value.length - 1
+              this.output.element.value.length - 1,
             );
             this.output.element.focus();
           });
@@ -159,9 +157,11 @@ export default class Keyboard extends Wrapper {
         } else if (key[1].code === 'ShiftLeft') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('shiftLeft');
+          keyboardKey.element.innerHTML = 'Shift';
         } else if (key[1].code === 'ShiftRight') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('shiftRight');
+          keyboardKey.element.innerHTML = 'Shift';
         } else if (key[1].code === 'ControlLeft') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('ctrlLeft');
@@ -177,15 +177,35 @@ export default class Keyboard extends Wrapper {
         } else if (key[1].code === 'ArrowLeft') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('left');
+          keyboardKey.element.innerHTML = '\t&#8592;';
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += '→';
+          });
         } else if (key[1].code === 'ArrowRight') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('right');
+          keyboardKey.element.innerHTML = '&#8594;';
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += '←';
+          });
         } else if (key[1].code === 'ArrowUp') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('up');
+          keyboardKey.element.innerHTML = '&#8593;';
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += '↑';
+          });
         } else if (key[1].code === 'ArrowDown') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('down');
+          keyboardKey.element.innerHTML = '\t&#8595;';
+          keyboardKey.element.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.output.element.value += '↓';
+          });
         } else if (key[1].code === 'Tab') {
           keyboardKey.element.classList.remove('keyboard-key');
           keyboardKey.element.classList.add('tab');
@@ -210,82 +230,48 @@ export default class Keyboard extends Wrapper {
     });
   }
 
-  keyPressedHandler() {
-    
+  eventMouse() {
+    const keys = this.keyboard.element.querySelectorAll('.keyboard-key');
+    keys.forEach((key) => {
+      key.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        key.classList.add('active');
+      });
+      key.addEventListener('mouseup', (e) => {
+        e.preventDefault();
+        key.classList.remove('active');
+      });
+    });
   }
 
-  // keys.forEach(([key, value]) => {
-  //   if (value.length > 1) {
-  //     value.forEach((item) => {
-  //     }
-  //     );
-  //   } else {
-  //     this.keyboard.element.innerHTML += `<div class="key">${value.small}</div>`;
-  //   }
-  // });}
+  eventKeysPress() {
+    function keyPressed(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      // console.log(key)
+      if (key) {
+        key.classList.add('active');
+        this.output.element.value += key.innerHTML;
+        this.output.element.focus();
+      }
+    }
 
-  // keys.forEach(([key, value]) => {
-  //   // console.log(key);
-  //   console.log(value);
-  //   const keyboardRow = new Create(
-  //     this.keyboard.element,
-  //     'div',
+    function keyReleased(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      if (key) {
+        key.classList.remove('active');
+      }
+      this.output.element.focus();
+    }
 
-  //     'keyboard-row',
-  //     '',
-  //     ''
-  //   );
-  //   const keyboardKey = new Create(
-  //     keyboardRow.element,
-  //     'div',
-  //     'keyboard-key',
-  //     '',
-  //     ''
-  //   );
-  //   keyboardKey.element.innerHTML = value.small;
-
-  // });
-
-  // console.log(keys);
-
-  // for (let i = 0; i < rowsOrder.length; i++) {
-  //   const keyboardRow = new Create(
-  //     this.keyboard.element,
-  //     'div',
-  //     'keyboard-row',
-  //     '',
-  //     ''
-  //   );
-  //   for (let j = 0; j < rowsOrder[i].length; j++) {
-  //     const keyboardKey = new Create(
-  //       keyboardRow.element,
-  //       'div',
-  //       'keyboard-key',
-  //       '',
-  //       {
-  //         'data-key': rowsOrder[i][j],
-
-  //       }
-  //     );
-  //     keyboardKey.element.innerHTML = eng;
-
-  // eng.forEach((key) => {
-  //   const keyboardRows = new Create(
-  //     this.keyboard.element,
-  //     'div',
-  //     'keyboard-rows',
-  //     '',
-  //     ''
-  //   );
-  //   // this.keyboardKey.push(
-  //   //   new Create(this.keyboard.element, 'div', 'keyboard-key', key.small, '')
-  //   // );
-  // });
+    document.addEventListener('keydown', keyPressed.bind(this));
+    document.addEventListener('keyup', keyReleased.bind(this));
+  }
 
   render() {
     this.keyboardLayout();
     this.engKeyboardLayout();
     this.evtHandlerOnKey();
-    this.keyPressedHandler();
+    this.eventMouse();
+    this.eventKeysPress();
   }
 }

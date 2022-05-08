@@ -28,6 +28,7 @@ class Wrapper extends Create {
     this.output = new Create(this.container.element, 'textarea', 'output', null, {
       placeholder: 'Type your text here...',
       spellcheck: false,
+      readonly: true,
     });
   }
 }
