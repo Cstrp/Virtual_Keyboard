@@ -155,6 +155,7 @@ export default [
   },
   {
     small: 's',
+
     shift: 'S',
     code: 'KeyS',
   },
@@ -195,6 +196,7 @@ export default [
   },
   {
     small: ';',
+
     shift: ':',
     code: 'Semicolon',
   },

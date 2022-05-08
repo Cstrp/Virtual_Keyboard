@@ -42,10 +42,10 @@ module.exports = {
   target,
   // productionConfig,
   context: path.resolve(__dirname, 'src'),
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   entry: {
     main: ['@babel/polyfill', './js/index.js'],
-    support: './js/index.ts',
+    support: './js/sup.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
