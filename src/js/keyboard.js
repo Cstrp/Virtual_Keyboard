@@ -267,11 +267,79 @@ export default class Keyboard extends Wrapper {
     document.addEventListener('keyup', keyReleased.bind(this));
   }
 
+  specialKeys() {
+    function backspace(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      if (e.code === 'Backspace') {
+        this.output.element.value = this.output.element.value.slice(
+          0,
+
+          this.output.element.value.length - 1,
+        );
+      }
+    }
+    function tab(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      if (e.code === 'Tab') {
+        e.preventDefault();
+        this.output.element.value += '\t';
+        this.output.element.focus();
+      }
+    }
+    function enter(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      if (e.code === 'Enter') {
+        e.preventDefault();
+        this.output.element.value += '\n';
+        this.output.element.focus();
+      }
+    }
+    function shift(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      if (e.shiftKey === true) {
+        e.preventDefault();
+        this.output.element.value = this.output.element.selectionStart
+          ? this.output.element.value.toUpperCase()
+          : this.output.element.value.toLowerCase();
+        this.output.element.focus();
+      }
+      if (e.shiftKey === false) {
+        e.preventDefault();
+        this.output.element.value = this.output.element.value.selectionEnd
+          ? this.output.element.value.toUpperCase()
+          : this.output.element.value.toLowerCase();
+
+        this.output.element.focus();
+      }
+    }
+    function arrows(e) {
+      const key = document.querySelector(`.keyboard-key[data-key="${e.code}"]`);
+      if (
+        e.code === 'ArrowLeft'
+        || e.code === 'ArrowRight'
+        || e.code === 'ArrowUp'
+        || e.code === 'ArrowDown'
+      ) {
+        e.preventDefault();
+
+        this.output.element.focus();
+      }
+    }
+
+    document.addEventListener('keydown', backspace.bind(this));
+    document.addEventListener('keydown', tab.bind(this));
+    document.addEventListener('keydown', enter.bind(this));
+    document.addEventListener('keyup', shift.bind(this));
+    document.addEventListener('keydown', shift.bind(this));
+    document.addEventListener('keydown', arrows.bind(this));
+  }
+
   render() {
     this.keyboardLayout();
     this.engKeyboardLayout();
     this.evtHandlerOnKey();
     this.eventMouse();
     this.eventKeysPress();
+    this.specialKeys();
   }
 }
