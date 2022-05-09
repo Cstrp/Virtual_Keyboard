@@ -1,100 +1,100 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const DevelopmentMode = process.env.NOVE_ENV === "development";
-const ProductionMode = !DevelopmentMode;
+const DevelopmentMode = process.env.NOVE_ENV === 'development'
+const ProductionMode = !DevelopmentMode
 
-let mode = "development";
-let target = "web";
+let mode = 'development'
+let target = 'web'
 if (process.env.NODE_ENV === ProductionMode) {
-  mode = ProductionMode;
-  target = "browserslist";
+  mode = ProductionMode
+  target = 'browserslist'
 }
 
 const plugins = [
   new HtmlWebpackPlugin({
-    template: "./index.html",
+    template: './index.html',
   }),
   new MiniCssExtractPlugin({
-    filename: "./style/[name].[contenthash].css",
+    filename: './style/[name].[contenthash].css',
   }),
-];
+]
 
 module.exports = {
   mode,
   plugins,
   target,
-  context: path.resolve(__dirname, "src"),
+  context: path.resolve(__dirname, 'src'),
   entry: {
-    main: ["@babel/polyfill/noConflict", "./js/index.js"],
-    sup: ["@babel/polyfill/noConflict", "./js/sup.js"],
+    main: ['@babel/polyfill/noConflict', './js/index.js'],
+    sup: ['@babel/polyfill/noConflict', './js/sup.js'],
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name][contenthash].js",
-    assetModuleFilename: "assets/[hash][ext][query]",
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name][contenthash].js',
+    assetModuleFilename: 'assets/[hash][ext][query]',
     clean: true,
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, "public"),
+      directory: path.join(__dirname, 'public'),
     },
     hot: DevelopmentMode,
     compress: true,
     open: true,
     port: 3000,
     proxy: {
-      "/api": {
-        target: "http://localhost:3000",
+      '/api': {
+        target: 'http://localhost:3000',
         pathRewrite: {
-          "^/api": "",
+          '^/api': '',
         },
         changeOrigin: true,
       },
     },
   },
   resolve: {
-    extensions: [".js", ".json", ".css"],
+    extensions: ['.js', '.json', '.css'],
     alias: {
-      "@": path.resolve(__dirname, "src/js"),
+      '@': path.resolve(__dirname, 'src/js'),
     },
   },
   module: {
     rules: [
       {
         test: /\.(html)$/,
-        use: ["html-loader"],
+        use: ['html-loader'],
       },
       {
         test: /\.(s[ac]|c)ss$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
-        type: mode === "production" ? "asset" : "asset/resource",
+        type: mode === 'production' ? 'asset' : 'asset/resource',
         generator: {
-          filename: "[path][contenthash][ext]",
+          filename: '[path][contenthash][ext]',
         },
       },
       {
         test: /\.(woff2?|eot|ttf|otf)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
         generator: {
-          filename: "[path][contenthash][ext]",
+          filename: '[path][contenthash][ext]',
         },
       },
       {
         test: /\.(json)$/i,
-        type: "asset/source",
+        type: 'asset/source',
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ['@babel/preset-env'],
             cacheDirectory: true,
           },
         },
@@ -103,9 +103,9 @@ module.exports = {
         test: /\.(ts|tsx)?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-typescript"],
+            presets: ['@babel/preset-typescript'],
             cacheDirectory: true,
           },
         },
@@ -114,13 +114,13 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-react"],
+            presets: ['@babel/preset-react'],
             cacheDirectory: true,
           },
         },
       },
     ],
   },
-};
+}
