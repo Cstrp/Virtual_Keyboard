@@ -26,10 +26,9 @@ module.exports = {
   plugins,
   target,
   context: path.resolve(__dirname, "src"),
-  devtool: "eval-source-map",
   entry: {
-    main: ["@babel/polyfill", "./js/index.js"],
-    sup: ["@babel/polyfill", "./js/sup.js"],
+    main: ["@babel/polyfill/noConflict", "./js/index.js"],
+    sup: ["@babel/polyfill/noConflict", "./js/sup.js"],
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -45,7 +44,6 @@ module.exports = {
     compress: true,
     open: true,
     port: 3000,
-    historyApiFallback: true,
     proxy: {
       "/api": {
         target: "http://localhost:3000",
