@@ -312,6 +312,13 @@ export default class Keyboard extends Wrapper {
       }
     }
 
+    function space(evt) {
+      if (evt.code === 'Space') {
+        evt.preventDefault()
+        this.output.element.value += ' '
+      }
+    }
+
     function arrows(e) {
       if (e.code === 'ArrowLeft') {
         e.preventDefault()
@@ -334,6 +341,7 @@ export default class Keyboard extends Wrapper {
     document.addEventListener('keydown', shift.bind(this))
     document.addEventListener('keyup', shift.bind(this))
     document.addEventListener('keydown', arrows.bind(this))
+    document.addEventListener('keydown', space.bind(this))
   }
 
   rusKeyboardLayout() {

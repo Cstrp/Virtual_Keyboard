@@ -2,13 +2,10 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const DevelopmentMode = process.env.NOVE_ENV === 'development'
-const ProductionMode = !DevelopmentMode
-
 let mode = 'development'
 let target = 'web'
-if (process.env.NODE_ENV === ProductionMode) {
-  mode = ProductionMode
+if (process.env.NODE_ENV === 'production') {
+  mode = 'production'
   target = 'browserslist'
 }
 
@@ -27,8 +24,8 @@ module.exports = {
   target,
   context: path.resolve(__dirname, 'src'),
   entry: {
-    main: ['@babel/polyfill/noConflict', './js/index.js'],
-    sup: ['@babel/polyfill/noConflict', './js/sup.js'],
+    main: './js/index.js',
+    sup: './js/sup.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -40,7 +37,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'public'),
     },
-    hot: DevelopmentMode,
+    hot: false,
     compress: true,
     open: true,
     port: 3000,
