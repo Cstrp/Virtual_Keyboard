@@ -28,9 +28,4 @@ console.log(
     ' поленись перепроверить в последний день дедлайна кроссчека, и быть может' +
     'ты удивишся увидев что-то или работающее ))) '
 )
-console.log('xyi')
-console.log('xyi')
-console.log('xyi')
-console.log('xyi')
-console.log('xyi')
 
